@@ -4,6 +4,7 @@ class StringsManager {
   static const String less = "less";
   static const String reel = "reel";
   static const String reels = "reels";
+  static const String text = "Write";
 
   static const String post = "post";
   static const String live = "live";

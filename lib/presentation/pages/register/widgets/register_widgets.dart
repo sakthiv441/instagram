@@ -179,6 +179,9 @@ class _SignUpPageState extends State<RegisterWidgets> {
               ),
             ] else ...[
               haveAccountRow(context),
+              const SizedBox(
+                height: 15,
+              ),
               const OrText(),
             ],
           ],

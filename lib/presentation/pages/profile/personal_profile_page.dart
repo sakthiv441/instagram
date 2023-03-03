@@ -17,6 +17,7 @@ import 'package:instagram/core/translations/app_lang.dart';
 import 'package:instagram/core/utility/constant.dart';
 import 'package:instagram/core/utility/injector.dart';
 import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/users_info_reel_time/users_info_reel_time_bloc.dart';
+import 'package:instagram/presentation/pages/profile/create_text_post.dart';
 import 'package:instagram/presentation/pages/profile/widgets/bottom_sheet.dart';
 import 'package:instagram/presentation/pages/profile/widgets/profile_page.dart';
 import 'package:instagram/presentation/pages/profile/widgets/recommendation_people.dart';
@@ -258,8 +259,7 @@ class _ProfilePageState extends State<PersonalProfilePage> {
           sharePrefs.clear();
           Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
             CupertinoPageRoute(
-                builder: (_) => LoginPage(sharePrefs: sharePrefs),
-                maintainState: false),
+                builder: (_) => const LoginPage(), maintainState: false),
             (route) => false,
           );
         });
@@ -361,7 +361,7 @@ class _ProfilePageState extends State<PersonalProfilePage> {
   Widget createNewLive() {
     return InkWell(
       onTap: () {},
-      child: createSizedBox(StringsManager.live.tr,
+      child: createSizedBox(StringsManager.text.tr,
           nameOfPath: IconsAssets.instagramHighlightStoryIcon),
     );
   }
@@ -396,6 +396,15 @@ class _ProfilePageState extends State<PersonalProfilePage> {
     await CustomImagePickerPlus.pickBoth(context);
     rebuildUserInfo.value = true;
   }
+
+  // createTextNewPost() async {
+  //   Navigator.maybePop(context);
+  //   await pushToPage(
+  //     context,
+  //     page: const CreateTextPostPage(),
+  //   );
+  //   rebuildUserInfo.value = true;
+  // }
 
   Widget createPost() {
     return InkWell(

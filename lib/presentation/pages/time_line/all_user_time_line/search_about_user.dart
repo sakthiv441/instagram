@@ -121,6 +121,7 @@ class _SearchAboutUserPageState extends State<SearchAboutUserPage> {
             color: Theme.of(context).shadowColor,
             borderRadius: BorderRadius.circular(10)),
         child: TextFormField(
+          autofocus: true,
           style: Theme.of(context).textTheme.bodyLarge,
           controller: _textController.value,
           textAlign: TextAlign.start,

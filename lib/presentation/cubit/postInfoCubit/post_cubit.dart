@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker_plus/image_picker_plus.dart';
 import 'package:instagram/data/models/child_classes/post/post.dart';
+import 'package:instagram/domain/use_cases/post/create_post_text.dart';
 import 'package:instagram/domain/use_cases/post/delete/delete_post.dart';
 import 'package:instagram/domain/use_cases/post/get/get_all_posts.dart';
 import 'package:instagram/domain/use_cases/post/get/get_post_info.dart';
@@ -12,6 +13,7 @@ part 'post_state.dart';
 
 class PostCubit extends Cubit<PostState> {
   final CreatePostUseCase _createPostUseCase;
+  // final CreateTextPostUseCase _createTextPostUseCase;
   final GetPostsInfoUseCase _getPostsInfoUseCase;
   final GetAllPostsInfoUseCase _getAllPostInfoUseCase;
   final UpdatePostUseCase _updatePostUseCase;
@@ -24,12 +26,12 @@ class PostCubit extends Cubit<PostState> {
   List<Post>? allPostsInfo;
 
   PostCubit(
-      this._createPostUseCase,
-      this._getPostsInfoUseCase,
-      this._updatePostUseCase,
-      this._deletePostUseCase,
-      this._getAllPostInfoUseCase)
-      : super(CubitPostLoading());
+    this._createPostUseCase,
+    this._getPostsInfoUseCase,
+    this._updatePostUseCase,
+    this._deletePostUseCase,
+    this._getAllPostInfoUseCase,
+  ) : super(CubitPostLoading());
 
   static PostCubit get(BuildContext context) => BlocProvider.of(context);
 
@@ -47,6 +49,20 @@ class PostCubit extends Cubit<PostState> {
       emit(CubitPostFailed(e));
     });
   }
+
+  // Future<void> createTextPost(
+  //   Post postInfo,
+  // ) async {
+  //   newPostInfo = null;
+  //   emit(CubitPostLoading());
+  //   await _createTextPostUseCase.call(params: postInfo).then((postInfo) {
+  //     newPostInfo = postInfo;
+  //     emit(CubitPostLoaded(postInfo));
+  //     return postInfo;
+  //   }).catchError((e) {
+  //     emit(CubitPostFailed(e));
+  //   });
+  // }
 
   Future<void> getPostsInfo(
       {required List<dynamic> postsIds,

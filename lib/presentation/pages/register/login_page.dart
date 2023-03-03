@@ -11,15 +11,19 @@ import 'package:instagram/presentation/pages/register/widgets/register_widgets.d
 import 'package:instagram/presentation/widgets/global/custom_widgets/custom_elevated_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../core/utility/injector.dart';
+
 class LoginPage extends StatefulWidget {
-  final SharedPreferences sharePrefs;
-  const LoginPage({Key? key, required this.sharePrefs}) : super(key: key);
+  const LoginPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final SharedPreferences sharePrefs = injector<SharedPreferences>();
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   RxBool isHeMovedToHome = false.obs;
@@ -35,7 +39,6 @@ class _LoginPageState extends State<LoginPage> {
     isUserIdReady.dispose();
     validateEmail.dispose();
     validatePassword.dispose();
-
   }
 
   @override
@@ -78,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
     isUserIdReady.value = true;
     myPersonalId = userId;
     if (myPersonalId.isNotEmpty) {
-      await widget.sharePrefs.setString("myPersonalId", myPersonalId);
+      await sharePrefs.setString("myPersonalId", myPersonalId);
       Get.offAll(GetMyPersonalInfo(myPersonalId: myPersonalId));
     } else {
       ToastShow.toast(StringsManager.somethingWrong.tr);

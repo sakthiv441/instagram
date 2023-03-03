@@ -8,13 +8,13 @@ class CustomTextField extends StatefulWidget {
   final String hint;
   final bool? isThatEmail;
   final ValueNotifier<bool>? validate;
-  const CustomTextField(
-      {required this.controller,
-      required this.hint,
-      this.isThatEmail,
-      this.validate,
-      Key? key})
-      : super(key: key);
+  const CustomTextField({
+    required this.controller,
+    required this.hint,
+    this.isThatEmail,
+    this.validate,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -47,6 +47,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         height: isThatMobile ? null : 37,
         width: double.infinity,
         child: TextFormField(
+          autofocus: true,
           controller: widget.controller,
           cursorColor: ColorManager.teal,
           style:

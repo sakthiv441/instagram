@@ -211,6 +211,7 @@ class _UserNamePageState extends State<UserNamePage> {
         height: isThatMobile ? null : 37,
         width: double.infinity,
         child: TextFormField(
+          autofocus: true,
           controller: userNameController,
           cursorColor: ColorManager.teal,
           style:

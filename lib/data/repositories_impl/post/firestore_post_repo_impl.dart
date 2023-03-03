@@ -49,6 +49,16 @@ class FireStorePostRepositoryImpl implements FireStorePostRepository {
     }
   }
 
+  // @override
+  // Future<Post> createTextPost({required Post textPostInfo}) async {
+  //   try {
+  //     Post newTextPostInfo = await FireStorePost.createPost(textPostInfo);
+  //     return newTextPostInfo;
+  //   } catch (e) {
+  //     return Future.error(e.toString());
+  //   }
+  // }
+
   @override
   Future<List<Post>> getPostsInfo(
       {required List<dynamic> postsIds,

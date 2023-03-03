@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:instagram/data/models/child_classes/notification.dart';
 import 'package:instagram/data/models/parent_classes/without_sub_classes/push_notification.dart';
-// import 'package:instagram/core/utility/private_keys.dart';
 
 class DeviceNotification {
   static Future<void> pushNotification(
@@ -46,7 +45,8 @@ class DeviceNotification {
 
             /// conect with cloud messaging and get server key from project settings here
             /// replace the points with your key  "key=...." and set it in [notificationKey]
-            // 'Authorization': notificationKey,
+            'Authorization':
+                'key=AAAAabq4C6U:APA91bGSjQnzhS-4iG9w1_G9aiOO1osHnnMrJFB7kKqh8D6QN0cDMtKO22kDKtI2z7cS9HxUl80GpsOW2qonqkEvnqCK1Kyd9mRFImnetVmkSGBUyTTd0YL-j5U3T_PprdjA7MzbEPd5',
           },
           body: jsonEncode(pushNotification.toMap()),
         );

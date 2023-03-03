@@ -8,6 +8,9 @@ abstract class FireStorePostRepository {
     required List<SelectedByte> files,
     required Uint8List? coverOfVideo,
   });
+  // Future<Post> createTextPost({
+  //   required Post textPostInfo,
+  // });
   Future<List<Post>> getPostsInfo(
       {required List<dynamic> postsIds, required int lengthOfCurrentList});
   Future<List<Post>> getAllPostsInfo(

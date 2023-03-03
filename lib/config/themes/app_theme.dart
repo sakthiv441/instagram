@@ -19,7 +19,6 @@ class AppTheme {
       hoverColor:
           isThatMobile ? ColorManager.black45 : ColorManager.transparent,
       indicatorColor: ColorManager.black38,
-
       dividerColor: ColorManager.black12,
       backgroundColor: ColorManager.lightBlack,
       scaffoldBackgroundColor:

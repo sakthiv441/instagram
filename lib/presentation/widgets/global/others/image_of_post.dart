@@ -39,6 +39,8 @@ import 'package:instagram/presentation/widgets/global/popup_widgets/common/jump_
 import 'package:instagram/presentation/widgets/global/popup_widgets/common/volume_icon.dart';
 import 'package:instagram/presentation/widgets/global/popup_widgets/web/menu_card.dart';
 
+import '../../../pages/time_line/widgets/read_more_text.dart';
+
 class ImageOfPost extends StatefulWidget {
   final ValueNotifier<Post> postInfo;
   final bool playTheVideo;
@@ -498,6 +500,52 @@ class _ImageOfPostState extends State<ImageOfPost>
       height: lowHeight ? 22 : 28,
     );
   }
+
+  // Widget textpost(Post postInfo) {
+  //   bool isLiked = postInfo.likes.contains(myPersonalId);
+  //   return Stack(
+  //     alignment: Alignment.center,
+  //     children: [
+  //       Align(
+  //         alignment: Alignment.center,
+  //         child: GestureDetector(
+  //           onDoubleTap: () {
+  //             setState(() {
+  //               isHeartAnimation = true;
+  //               this.isLiked = true;
+  //               if (!isLiked) {
+  //                 BlocProvider.of<PostLikesCubit>(context).putLikeOnThisPost(
+  //                     postId: postInfo.postUid, userId: myPersonalId);
+  //                 postInfo.likes.add(myPersonalId);
+  //               }
+  //             });
+  //           },
+  //           child: Padding(
+  //               padding: const EdgeInsetsDirectional.only(top: 8.0),
+  //               child: Container(
+  //                 width: double.infinity,
+  //                 height: 80,
+  //                 color: Colors.lightBlue,
+  //                 child: ReadMore(" ${postInfo.caption}", 2),
+  //               )),
+  //         ),
+  //       ),
+  //       Align(
+  //         alignment: Alignment.center,
+  //         child: Opacity(
+  //           opacity: isHeartAnimation ? 1 : 0,
+  //           child: LikePopupAnimation(
+  //             isAnimating: isHeartAnimation,
+  //             duration: const Duration(milliseconds: 700),
+  //             child: const Icon(Icons.favorite,
+  //                 color: ColorManager.white, size: 100),
+  //             onEnd: () => setState(() => isHeartAnimation = false),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget imageOfPost(Post postInfo) {
     bool isLiked = postInfo.likes.contains(myPersonalId);
