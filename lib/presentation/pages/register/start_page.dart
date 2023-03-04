@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:instagram/presentation/pages/register/login_page.dart';
 import 'package:instagram/presentation/pages/register/sign_up2_page.dart';
-import 'package:instagram/presentation/pages/register/sign_up_page.dart';
 
 import '../../../config/routes/app_routes.dart';
 import '../../../core/resources/assets_manager.dart';

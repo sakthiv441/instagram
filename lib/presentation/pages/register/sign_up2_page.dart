@@ -216,7 +216,10 @@ class _EmailFieldState extends State<EmailField> {
             onPressed: () async {
               if (validateEmailValue) {
                 pushToPage(context,
-                    page: VerificationScreen(email: emailcontroller.text),
+                    page: VerificationScreen(
+                      email: emailcontroller.text,
+                      emailcontroller: emailcontroller,
+                    ),
                     withoutRoot: false,
                     withoutPageTransition: true);
               }

@@ -152,7 +152,9 @@ Future<Widget> screenFunction() async {
 
   return myId == null
       ? const StartPage()
-      : GetMyPersonalInfo(myPersonalId: myId);
+      : GetMyPersonalInfo(
+          myPersonalId: myId,
+        );
 }
 
 _defineThePlatform(BuildContext context) {

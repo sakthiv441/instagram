@@ -16,6 +16,9 @@ import 'package:instagram/presentation/pages/time_line/all_user_time_line/all_us
 import 'package:instagram/presentation/pages/time_line/my_own_time_line/home_page.dart';
 import 'package:instagram/presentation/pages/video/videos_page.dart';
 import 'package:instagram/presentation/widgets/global/screens_w.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../pages/register/widgets/onboarding.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   final String userId;
@@ -30,6 +33,14 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   ValueNotifier<bool> playMainReelVideos = ValueNotifier(false);
 
   CupertinoTabController controller = CupertinoTabController();
+  // final introKey = GlobalKey<IntroductionScreenState>();
+    bool isHeMovedToHome = false;
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

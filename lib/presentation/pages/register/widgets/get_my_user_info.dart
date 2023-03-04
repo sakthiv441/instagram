@@ -7,9 +7,11 @@ import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/user_info_cu
 import 'package:instagram/presentation/screens/responsive_layout.dart';
 import 'package:instagram/presentation/screens/web_screen_layout.dart';
 import 'package:instagram/presentation/pages/register/widgets/popup_calling.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GetMyPersonalInfo extends StatefulWidget {
   final String myPersonalId;
+
   const GetMyPersonalInfo({Key? key, required this.myPersonalId})
       : super(key: key);
 

@@ -10,6 +10,7 @@ import 'package:instagram/core/utility/injector.dart';
 import 'package:instagram/domain/entities/registered_user.dart';
 import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/searchAboutUser/search_about_user_bloc.dart';
 import 'package:instagram/presentation/pages/register/widgets/get_my_user_info.dart';
+import 'package:instagram/presentation/pages/register/widgets/onboarding.dart';
 import 'package:instagram/presentation/pages/register/widgets/register_widgets.dart';
 import 'package:instagram/presentation/widgets/global/custom_widgets/custom_elevated_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +31,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final fullNameController = TextEditingController();
-  final bool validateControllers = false;
   ValueNotifier<bool> validateEmail = ValueNotifier(false);
   ValueNotifier<bool> validatePassword = ValueNotifier(false);
   ValueNotifier<bool> rememberPassword = ValueNotifier(false);
@@ -114,8 +114,23 @@ class _UserNamePageState extends State<UserNamePage> {
   bool isHeMovedToHome = false;
 
   @override
+  void initState() {
+    super.initState();
+    userNameTextField(context);
+    userNameController.addListener(() {
+      setState(() {
+        userNameTextField(context);
+        customTextButton();
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: SafeArea(
         child: Center(
           child: isThatMobile
@@ -134,22 +149,24 @@ class _UserNamePageState extends State<UserNamePage> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const SizedBox(height: 100),
-        Text(
-          StringsManager.createUserName.tr,
-          style:
-              getMediumStyle(color: Theme.of(context).focusColor, fontSize: 15),
+        const Text(
+          'Create Username',
+          style: TextStyle(
+              letterSpacing: -0.5,
+              fontSize: 27,
+              fontWeight: FontWeight.normal,
+              color: Colors.black87),
         ),
         const SizedBox(height: 10),
-        Center(
-          child: Text(
-            StringsManager.addUserName.tr,
-            style: getNormalStyle(color: ColorManager.grey, fontSize: 13),
+        const Padding(
+          padding: EdgeInsets.only(left: 30, right: 30),
+          child: Center(
+            child: Text(
+              textAlign: TextAlign.center,
+              'Pick a username for your new account. You can always change it',
+              style: TextStyle(color: Colors.black54),
+            ),
           ),
-        ),
-        Text(
-          StringsManager.youCanChangeUserNameLater.tr,
-          style: getNormalStyle(color: ColorManager.grey, fontSize: 13),
         ),
         const SizedBox(height: 30),
         userNameTextField(context),
@@ -179,28 +196,29 @@ class _UserNamePageState extends State<UserNamePage> {
   }
 
   Widget userNameTextField(BuildContext context) {
-    return BlocListener<SearchAboutUserBloc, SearchAboutUserState>(
+    return BlocBuilder<SearchAboutUserBloc, SearchAboutUserState>(
       bloc: BlocProvider.of<SearchAboutUserBloc>(context)
         ..add(FindSpecificUser(userNameController.text,
             searchForSingleLetter: true)),
-      listener: (context, state) {
+      buildWhen: (previous, current) =>
+          previous != current && current is SearchAboutUserBlocLoaded,
+      builder: (context, state) {
         List<UserPersonalInfo> usersWithSameUserName = [];
+
         if (state is SearchAboutUserBlocLoaded) {
           usersWithSameUserName = state.users;
         }
-        setState(() {
-          validateEdits = usersWithSameUserName.isEmpty;
-          if (userNameController.text.isEmpty) {
-            validateEdits = false;
-            isFieldEmpty = true;
-          } else {
-            isFieldEmpty = false;
-          }
-        });
+        WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+              validateEdits = usersWithSameUserName.isEmpty;
+              if (userNameController.text.isEmpty) {
+                validateEdits = false;
+                isFieldEmpty = true;
+              } else {
+                isFieldEmpty = false;
+              }
+            }));
+        return customTextField(context);
       },
-      child: customTextField(context),
-      listenWhen: (previous, current) =>
-          previous != current && (current is SearchAboutUserBlocLoaded),
     );
   }
 
@@ -307,7 +325,13 @@ class _UserNamePageState extends State<UserNamePage> {
 
       if (myPersonalId.isNotEmpty) {
         await sharePrefs.setString("myPersonalId", myPersonalId);
-        Get.offAll(GetMyPersonalInfo(myPersonalId: myPersonalId));
+        // Get.offAll(GetMyPersonalInfo(myPersonalId: myPersonalId));
+        // ignore: use_build_context_synchronously
+        pushToPage(context, page: OnboardingPage(
+          onpressed: () {
+            Get.offAll(GetMyPersonalInfo(myPersonalId: myPersonalId));
+          },
+        ), withoutPageTransition: true);
       } else {
         ToastShow.toast(StringsManager.somethingWrong.tr);
       }

@@ -12,8 +12,11 @@ import 'name_password.dart';
 //emailAuth.config(remoteServerConfiguration); add your server config to run send email verification code
 class VerificationScreen extends StatefulWidget {
   final String email;
+  final TextEditingController emailcontroller;
 
-  const VerificationScreen({Key? key, required this.email}) : super(key: key);
+  const VerificationScreen(
+      {Key? key, required this.email, required this.emailcontroller})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -22,17 +25,28 @@ class VerificationScreen extends StatefulWidget {
 
 class _VerificationScreenState extends State<VerificationScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _otpController = TextEditingController();
+  final TextEditingController _otpController =
+      TextEditingController(text: '85321');
   bool _isButtonDisabled = true;
-  int _remainingTime = 60;
+  int _remainingTime = 20;
   bool _resendButtonDisabled = true;
-  final EmailAuth _emailAuth = EmailAuth(sessionName: "My App");
+  final EmailAuth _emailAuth = EmailAuth(sessionName: "Sample session");
+
+  void email() {
+    setState(() {
+      _emailAuth.config({
+        "server": "sandbox.smtp.mailtrap.io",
+        "serverKey": "d3c44ab920fc94"
+      });
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _sendOTP();
     _startTimer();
+    email();
   }
 
   void _startTimer() {
@@ -50,7 +64,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   void _sendOTP() async {
-    var res = await _emailAuth.sendOtp(recipientMail: widget.email);
+    var res =
+        await _emailAuth.sendOtp(recipientMail: widget.email, otpLength: 6);
     if (res) {
       print("OTP sent to ${widget.email}");
     } else {
@@ -59,15 +74,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   Future<void> _verifyOTP() async {
-    bool verified = await _emailAuth.validateOtp(
+    bool verified = _emailAuth.validateOtp(
       userOtp: _otpController.text,
       recipientMail: widget.email,
     );
     if (verified) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const NamePassword()),
-      );
+      // Navigator.of(context).pushReplacement(
+      //   MaterialPageRoute(builder: (_) => NamePassword()),
+      // );
     } else {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
@@ -116,19 +131,22 @@ class _VerificationScreenState extends State<VerificationScreen> {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'Enter the confirmation code we sent to ${widget.email}.',
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.black),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Text(
+                  'Enter the confirmation code we sent to ${widget.email}.',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.black),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
                     onPressed: _resendButtonDisabled ? null : _resendOTP,
-                    child: const Text(
-                      'Resend Confirmation Code',
-                      style: TextStyle(color: Colors.blue),
+                    child: Text(
+                      'Resend Confirmation Code $_remainingTime',
+                      style: const TextStyle(color: Colors.blue),
                     ),
                   ),
                 ],
@@ -142,7 +160,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   style: getNormalStyle(
                       color: Theme.of(context).focusColor, fontSize: 15),
                   decoration: InputDecoration(
-                    hintText: 'Phone Number',
+                    hintText: 'Verify code',
                     hintStyle: isThatMobile
                         ? getNormalStyle(
                             color: Theme.of(context).indicatorColor)
@@ -178,7 +196,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   isItDone: true,
                   nameOfButton: 'Next',
                   onPressed: () async {
-                    _isButtonDisabled ? null : _verifyOTP;
+                    // _isButtonDisabled ? null : _verifyOTP;
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                          builder: (_) => NamePassword(
+                                emailcontroller: widget.emailcontroller,
+                              )),
+                    );
                   },
                 ),
               ),
