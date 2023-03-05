@@ -37,8 +37,6 @@ class StartPage extends StatelessWidget {
               TextButton(
                   onPressed: () {
                     pushToPage(context, page: const LoginPage());
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (context) => const LoginPage()));
                   },
                   child: const Text(
                     'Log In',

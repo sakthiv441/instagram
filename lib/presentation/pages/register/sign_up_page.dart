@@ -327,8 +327,8 @@ class _UserNamePageState extends State<UserNamePage> {
         await sharePrefs.setString("myPersonalId", myPersonalId);
         // Get.offAll(GetMyPersonalInfo(myPersonalId: myPersonalId));
         // ignore: use_build_context_synchronously
-        pushToPage(context, page: OnboardingPage(
-          onpressed: () {
+        pushToPage(context, page: Facebook(
+          onpressedfunc: () {
             Get.offAll(GetMyPersonalInfo(myPersonalId: myPersonalId));
           },
         ), withoutPageTransition: true);
